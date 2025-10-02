@@ -50,24 +50,36 @@ struct HomeView: View {
         } else {
             List(viewModel.posts) { post in
                 CardView(cornerRadius: 12) {
-                    NavigationLink(destination: PostDetailView(item: post.id)) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(post.title)
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            Text(post.body)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .lineLimit(2)
-                        }
-                        .padding(.vertical, 4)
+                  NavigationLink(destination: PostDetailView(item: post.id)) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(post.title)
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Text(post.body)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .lineLimit(2)
                     }
+                    .padding(.vertical, 4)
+                  }
+                  .buttonStyle(CardNavigationLinkStyle())
+                  .listRowSeparator(.hidden)
+                  .listRowBackground(Color.clear)
                 }
+                
             }
             .listStyle(.plain)
             .refreshable {
                 await viewModel.loadPosts()
             }
         }
+    }
+}
+
+private struct CardNavigationLinkStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(configuration.isPressed ? 0.85 : 1)
+            .animation(.easeInOut(duration: 0.12), value: configuration.isPressed)
     }
 }
