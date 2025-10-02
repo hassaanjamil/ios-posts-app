@@ -5,26 +5,40 @@
 //  Created by Hassan Jamil on 02/10/2025.
 //
 
-import Alamofire
+import Foundation
 
-class APIManager {
-    static let shared = APIManager() // Singleton instance
-    private let BASE_URL = "https://127.0.0.1:3000"
+enum APIError: Error {
+    case invalidURL
+    case invalidResponse
+    case decodingFailed
+}
 
-    private init() {} // Prevent external instantiation
+final class APIManager {
+    static let shared = APIManager()
 
-    func getPosts() async throws -> [SPost] {
-        return try await withCheckedThrowingContinuation { continuation in
-            AF.request("\(BASE_URL)/posts") // Replace with your actual API endpoint
-                .validate()
-                .responseDecodable(of: [SPost].self) { response in
-                    switch response.result {
-                    case .success(let posts):
-                        continuation.resume(returning: posts)
-                    case .failure(let error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    private let baseURL = URL(string: "http://127.0.0.1:3000")
+    private let session: URLSession
+
+    private init(session: URLSession = .shared) {
+        self.session = session
+    }
+
+    func getPosts() async throws -> [PostDto] {
+        guard let url = baseURL?.appendingPathComponent("posts") else {
+            throw APIError.invalidURL
+        }
+
+        let (data, response) = try await session.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200..<300).contains(httpResponse.statusCode) else {
+            throw APIError.invalidResponse
+        }
+
+        do {
+            return try JSONDecoder().decode([PostDto].self, from: data)
+        } catch {
+            throw APIError.decodingFailed
         }
     }
 }
