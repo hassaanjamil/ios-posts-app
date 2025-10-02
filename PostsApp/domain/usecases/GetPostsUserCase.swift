@@ -6,13 +6,13 @@
 //
 
 class GetPostsUseCase {
-    private let postRepository: PostRepository
+    private let postRepository: PostRepositoryProtocol
 
-    init(postRepository: PostRepository) {
+    init(postRepository: PostRepositoryProtocol) {
         self.postRepository = postRepository
     }
 
-    func execute(id: String, completion: @escaping (Result<SPost, Error>) -> Void) -> [SPost] {
-        return postRepository.getPosts()
+    func execute(id: String, completion: @escaping (Result<SPost, Error>) -> Void) async -> [SPost] {
+        return await postRepository.getPosts()
     }
 }

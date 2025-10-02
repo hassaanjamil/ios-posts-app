@@ -8,7 +8,7 @@
 import SwiftUICore
 import SwiftUI
 
-struct HomeRootView: View {
+struct HomeView: View {
     var body: some View {
         NavigationStack { // Or NavigationView
             List {

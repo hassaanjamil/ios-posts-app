@@ -11,20 +11,19 @@ struct BottomBarContentView: View {
     var body: some View {
         NavigationStack {
             TabView {
-                HomeRootView()
+                HomeView()
                     .tabItem {
-                        Label("Home", systemImage: "house")
+                        Label("Home", systemImage: "house.fill")
                     }
                 FavoriteView()
                     .tabItem {
-                        Label("Profile", systemImage: "heart")
+                        Label("Profile", systemImage: "heart.fill")
                     }
                 SettingsView()
                     .tabItem {
-                        Label("Settings", systemImage: "gear")
+                        Label("Settings", systemImage: "gearshape.fill")
                     }
             }
-            .navigationTitle("Home") // Navigation title
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: ProfileView()) {

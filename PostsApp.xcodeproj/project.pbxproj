@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5C3B51552E8EDC1800891AD6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3B51542E8EDC1800891AD6 /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		5C8EC8772E8DF0A300C08E99 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C3B51552E8EDC1800891AD6 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,8 +129,6 @@
 				5C8EC86B2E8DF0A100C08E99 /* PostsApp */,
 			);
 			name = PostsApp;
-			packageProductDependencies = (
-			);
 			productName = PostsApp;
 			productReference = 5C8EC8692E8DF0A100C08E99 /* PostsApp.app */;
 			productType = "com.apple.product-type.application";
@@ -147,8 +150,6 @@
 				5C8EC8792E8DF0A300C08E99 /* PostsAppTests */,
 			);
 			name = PostsAppTests;
-			packageProductDependencies = (
-			);
 			productName = PostsAppTests;
 			productReference = 5C8EC8762E8DF0A300C08E99 /* PostsAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -170,8 +171,6 @@
 				5C8EC8832E8DF0A300C08E99 /* PostsAppUITests */,
 			);
 			name = PostsAppUITests;
-			packageProductDependencies = (
-			);
 			productName = PostsAppUITests;
 			productReference = 5C8EC8802E8DF0A300C08E99 /* PostsAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -208,6 +207,9 @@
 			);
 			mainGroup = 5C8EC8602E8DF0A100C08E99;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5CCA327E2E8ED6B6001EFE08 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5C8EC86A2E8DF0A100C08E99 /* Products */;
 			projectDirPath = "";
@@ -413,6 +415,7 @@
 				DEVELOPMENT_TEAM = X69WA8594Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -441,6 +444,7 @@
 				DEVELOPMENT_TEAM = X69WA8594Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -571,6 +575,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5CCA327E2E8ED6B6001EFE08 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5C3B51542E8EDC1800891AD6 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CCA327E2E8ED6B6001EFE08 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5C8EC8612E8DF0A100C08E99 /* Project object */;
 }
