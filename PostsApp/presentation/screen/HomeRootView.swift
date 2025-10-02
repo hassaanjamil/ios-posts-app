@@ -13,7 +13,7 @@ struct HomeRootView: View {
         NavigationStack { // Or NavigationView
             List {
                 ForEach(0..<10) { item in
-                    NavigationLink(destination: DetailPage(item: item)) {
+                    NavigationLink(destination: PostDetailView(item: item)) {
                         Text("Item \(item)")
                     }
                 }
