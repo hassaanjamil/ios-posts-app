@@ -6,9 +6,9 @@
 //
 
 protocol PostRepository {
-    func getPosts() -> [Post]
-    func getPostById(postId: Int) -> Post
-    func getFavoritePosts() -> [Post]
-    func saveFavorite(post: Post)
+    func getPosts() -> [SPost]
+    func getPostById(postId: Int) -> SPost
+    func getFavoritePosts() -> [SPost]
+    func saveFavorite(post: SPost)
     func deleteFavorite(postId: Int)
 }

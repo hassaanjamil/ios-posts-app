@@ -5,6 +5,6 @@
 //  Created by Hassan Jamil on 02/10/2025.
 //
 
-struct PostViewModel {
+struct SPostViewModel {
     let postId: Int?
 }

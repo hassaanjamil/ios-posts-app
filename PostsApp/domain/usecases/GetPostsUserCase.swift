@@ -12,7 +12,7 @@ class GetPostsUseCase {
         self.postRepository = postRepository
     }
 
-    func execute(id: String, completion: @escaping (Result<Post, Error>) -> Void) -> [Post] {
+    func execute(id: String, completion: @escaping (Result<SPost, Error>) -> Void) -> [SPost] {
         return postRepository.getPosts()
     }
 }

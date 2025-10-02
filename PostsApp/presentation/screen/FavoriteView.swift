@@ -8,10 +8,10 @@
 import SwiftUICore
 import SwiftUI
 
-struct ProfileView: View {
+struct FavoriteView: View {
     var body: some View {
         VStack {
-            Text("Profile")
+            Text("Favorite")
         }
     }
 }

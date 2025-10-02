@@ -18,7 +18,7 @@ struct HomeRootView: View {
                     }
                 }
             }
-            .navigationTitle("Home")
+            .navigationTitle("Posts")
         }
     }
 }

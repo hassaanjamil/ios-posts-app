@@ -29,9 +29,22 @@
 		5C8EC8802E8DF0A300C08E99 /* PostsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5CCA32722E8ECFF3001EFE08 /* Exceptions for "PostsApp" folder in "PostsApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 5C8EC8682E8DF0A100C08E99 /* PostsApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5C8EC86B2E8DF0A100C08E99 /* PostsApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5CCA32722E8ECFF3001EFE08 /* Exceptions for "PostsApp" folder in "PostsApp" target */,
+			);
 			path = PostsApp;
 			sourceTree = "<group>";
 		};
