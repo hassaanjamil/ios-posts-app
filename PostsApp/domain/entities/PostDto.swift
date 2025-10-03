@@ -10,4 +10,5 @@ struct PostDto: Codable, Identifiable {
     let title: String
     let body: String
     let userId: Int
+    var isFavorite: Bool? = false
 }
