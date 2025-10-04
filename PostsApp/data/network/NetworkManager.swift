@@ -13,8 +13,8 @@ enum APIError: Error {
     case decodingFailed
 }
 
-final class APIManager {
-    static let shared = APIManager()
+final class NetworkManager {
+    static let shared = NetworkManager()
 
     private let baseURL = URL(string: "http://127.0.0.1:3000")
     private let session: URLSession

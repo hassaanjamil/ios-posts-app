@@ -7,9 +7,9 @@
 
 final class PostRepository: PostRepositoryProtocol {    
 
-    private let apiManager: APIManager
+    private let apiManager: NetworkManager
 
-    init(apiManager: APIManager = .shared) {
+    init(apiManager: NetworkManager = .shared) {
         self.apiManager = apiManager
     }
 
