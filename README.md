@@ -1,6 +1,6 @@
 # PostsApp (iOS)
 
-A SwiftUI (100% Swift) sample project that mirrors the Android Posts App. It demonstrates how to consume a posts API and render a home feed while following Clean Architecture guidelines for iOS.
+A SwiftUI (100% Swift) sample project that mirrors the [Android Posts App](https://github.com/hassaanjamil/android-posts-app) and consume [npm-rest-api](https://github.com/hassaanjamil/npm-sample-posts-rest-api). It demonstrates how to consume a posts API and render a home feed while following Clean Architecture guidelines for iOS.
 
 ## 📱 Features
 - Authenticate mock user and land on a tab-based shell.
