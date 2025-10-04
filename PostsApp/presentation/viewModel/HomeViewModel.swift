@@ -14,11 +14,11 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var errorMessage: String?
 
-    private let getPostsUseCase: GetPostsUseCase
-    private let postMapper: PostMapper
+    private let getPostsUseCase: GetPostsUseCaseProtocol
+    private let postMapper: PostMapperProtocol
 
-    init(getPostsUseCase: GetPostsUseCase,
-         postMapper: PostMapper = PostMapper()) {
+    init(getPostsUseCase: GetPostsUseCaseProtocol,
+         postMapper: PostMapperProtocol) {
         self.getPostsUseCase = getPostsUseCase
         self.postMapper = postMapper
     }

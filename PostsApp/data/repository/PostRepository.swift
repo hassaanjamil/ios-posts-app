@@ -5,15 +5,15 @@
 //  Created by Hassan Jamil on 02/10/2025.
 //
 
-final class PostRepository: PostRepositoryProtocol {    
+final class PostRepository: PostRepositoryProtocol {
 
-    private let apiManager: NetworkManager
+    private let networkManager: NetworkManagerProtocol
 
-    init(apiManager: NetworkManager = .shared) {
-        self.apiManager = apiManager
+    init(networkManager: NetworkManagerProtocol) {
+        self.networkManager = networkManager
     }
 
     func getPosts() async throws -> [PostDto] {
-        try await apiManager.getPosts()
+        try await networkManager.getPosts()
     }
 }

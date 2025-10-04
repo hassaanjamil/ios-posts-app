@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct PostsAppApp: App {
+struct PostsApp: App {
+    private let appContainer = AppContainer.shared
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.appContainer, appContainer)
         }
     }
 }

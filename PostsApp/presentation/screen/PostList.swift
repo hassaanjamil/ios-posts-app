@@ -44,41 +44,39 @@ struct PostList: View {
     private var listContent: some View {
         List(posts) { post in
             
-                CardView(cornerRadius: 10) {
-                    NavigationLink(destination: PostDetailView(item: post.id)) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(post.title)
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            
-                            Text(post.body)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .lineLimit(2)
-                            
-                            Spacer(minLength: 3)
-                            
-                            HStack {
-                                Spacer(minLength: 1)
-                                Button(action: {
-                                    print("Favorite tapped for post \(post.id)")
-                                }) {
-                                    Image(systemName: "heart")
-                                        .font(.title3)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                        }
-                        .padding(.vertical, 4)
-                    }
-                    .buttonStyle(CardNavigationLinkStyle())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+              CardView(cornerRadius: 10) {
+                NavigationLink(destination: PostDetailView(item: post.id)) {
+                  VStack(alignment: .leading, spacing: 8) {
+                      Text(post.title)
+                          .font(.headline)
+                          .foregroundColor(.primary)
+
+                      Text(post.body)
+                          .font(.subheadline)
+                          .foregroundColor(.secondary)
+                          .lineLimit(2)
+
+                      Spacer(minLength: 3)
+
+                      HStack {
+                          Spacer(minLength: 1)
+                          Button(action: {
+                              print("Favorite tapped for post \(post.id)")
+                          }) {
+                              Image(systemName: "heart")
+                                  .font(.title3)
+                                  .foregroundColor(.gray)
+                          }
+                      }
+                  }
+                  .padding(.vertical, 4)
                 }
-                
-            }
+                .buttonStyle(CardNavigationLinkStyle())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+              }
             
-        
+        }
         .listStyle(.plain)
         .refreshable { await onRefresh() }
     }

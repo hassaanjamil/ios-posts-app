@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5C3B51552E8EDC1800891AD6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3B51542E8EDC1800891AD6 /* Alamofire */; };
+		5C3B516F2E91BAC500891AD6 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3B516E2E91BAC500891AD6 /* Swinject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C3B51552E8EDC1800891AD6 /* Alamofire in Frameworks */,
+				5C3B516F2E91BAC500891AD6 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +211,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				5CCA327E2E8ED6B6001EFE08 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				5C3B516D2E91BAC500891AD6 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5C8EC86A2E8DF0A100C08E99 /* Products */;
@@ -577,6 +580,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5C3B516D2E91BAC500891AD6 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
 		5CCA327E2E8ED6B6001EFE08 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -592,6 +603,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5CCA327E2E8ED6B6001EFE08 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		5C3B516E2E91BAC500891AD6 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C3B516D2E91BAC500891AD6 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

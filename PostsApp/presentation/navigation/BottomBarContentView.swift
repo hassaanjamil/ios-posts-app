@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct BottomBarContentView: View {
+    @Environment(\.appContainer) private var appContainer
+
     var body: some View {
         NavigationStack {
             TabView {
-                HomeView()
+                HomeView(container: appContainer)
                     .tabItem {
                         Label("Home", systemImage: "house.fill")
                     }

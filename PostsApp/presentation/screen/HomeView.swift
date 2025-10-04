@@ -7,17 +7,17 @@
 
 import SwiftUI
 
+@MainActor
 struct HomeView: View {
 
     @StateObject private var viewModel: HomeViewModel
 
-    init(viewModel: HomeViewModel? = nil) {
+    init(viewModel: HomeViewModel? = nil,
+         container: AppContainer) {
         if let viewModel {
             _viewModel = StateObject(wrappedValue: viewModel)
         } else {
-            let repository = PostRepository()
-            let useCase = GetPostsUseCase(postRepository: repository)
-            _viewModel = StateObject(wrappedValue: HomeViewModel(getPostsUseCase: useCase))
+            _viewModel = StateObject(wrappedValue: container.resolve(HomeViewModel.self))
         }
     }
 
@@ -27,6 +27,7 @@ struct HomeView: View {
                      isLoading: viewModel.isLoading,
                      errorMessage: viewModel.errorMessage,
                      onRefresh: { await viewModel.loadPosts() })
+                .navigationTitle("Posts")
         }
         .task {
             await viewModel.loadPosts()

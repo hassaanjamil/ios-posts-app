@@ -10,40 +10,50 @@ A SwiftUI (100% Swift) sample project that mirrors the [Android Posts App](https
 - Pull-to-refresh support and basic error handling UI.
 
 ## 🏗 Architecture
-The project mirrors the layered setup following clean architecture guide lines:
+The project mirrors the layered setup following clean architecture guidelines:
 
-- **presentation** – SwiftUI screens (`HomeView`, `AuthView`, etc.), view models (`HomeViewModel`).
+- **presentation** – SwiftUI screens (`HomeView`, `AuthView`, etc.), view models (`HomeViewModel`), and reusable components.
 - **domain** – Business rules expressed as pure Swift entities (`PostDto`), repository contracts, and use cases (`GetPostsUseCase`).
-- **data** – Remote implementation using `Alamofire` inside `APIManager` and `PostRepository`, lightweight data mapper (`PostMapper`).
+- **data** – Remote implementations using `NetworkManager`, repository adapters (`PostRepository`), protocol definitions, and lightweight data mappers (`PostMapper`).
 
-The app stitches the layers together inside the presentation layer (e.g. `HomeView` builds a `PostRepository` → `GetPostsUseCase` → `HomeViewModel` pipeline). Each layer is testable in isolation by injecting protocol-based dependencies.
+Dependencies are wired at the edges through Swinject so presentation never constructs concrete data layer types directly. Each layer remains testable in isolation by relying on protocols.
 
 ## 🧩 Tech Stack
 - **SwiftUI** for the UI layer and navigation.
 - **Combine-lite** state model using `ObservableObject` / `@StateObject`.
 - **Swift concurrency** (`async`/`await`) for networking and repository calls.
-- **SPM / Foundation only** – no third-party dependencies required.
+- **Swinject** for dependency injection across layers.
+- **SPM-first** dependency management.
+
+## 🧬 Dependency Injection
+`AppContainer` bootstraps a `Swinject.Container`, registers protocols for the network, repository, use case, mapper, and view model layers, then exposes the container to SwiftUI through a custom environment key. Screens resolve the dependencies they need rather than instantiating concrete types, keeping the architecture clean and test-friendly. Swap the registrations or inject mock implementations in tests to exercise flows without touching production services.
 
 ## 🗂 Module & Folder Layout
 ```
 PostsApp
 ├── data
+│   ├── di
+│   │   └── AppContainer.swift
 │   ├── network
-│   │   └── APIManager.swift
-│   └── repository
+│   │   ├── NetworkManager.swift
+│   │   └── NetworkManagerProtocol.swift
+│   ├── repository
 │   │   └── PostRepository.swift
-│   └── mapper
-│       └── PostMapper.swift
+│   ├── mapper
+│   │   └── PostMapper.swift
+│   └── protocol
+│       └── PostMapperProtocol.swift
 ├── domain
 │   ├── entities
 │   │   └── PostDto.swift
 │   ├── repository
 │   │   └── PostRepositoryProtocol.swift
-│   └── usecases
+│   └── usecase
 │       └── GetPostsUseCase.swift
 └── presentation
-    ├── components
-    │   └── CardView.swift
+    ├── component
+    │   ├── CardView.swift
+    │   └── ErrorView.swift
     ├── navigation
     │   └── BottomBarContentView.swift
     ├── screen
@@ -53,9 +63,10 @@ PostsApp
     │   ├── FavoriteView.swift
     │   ├── ProfileView.swift
     │   └── SettingsView.swift
+    ├── support
+    │   └── AppContainer+Environment.swift
     └── viewModel
-        ├── HomeViewModel.swift
-        └── PostViewModel.swift
+        └── HomeViewModel.swift
 ```
 
 ## 🚀 Getting Started

@@ -13,20 +13,19 @@ enum APIError: Error {
     case decodingFailed
 }
 
-final class NetworkManager {
-    static let shared = NetworkManager()
+final class NetworkManager: NetworkManagerProtocol {
 
-    private let baseURL = URL(string: "http://127.0.0.1:3000")
+    private let baseURL: URL
     private let session: URLSession
 
-    private init(session: URLSession = .shared) {
+    init(baseURL: URL = URL(string: "http://127.0.0.1:3000")!,
+         session: URLSession = .shared) {
+        self.baseURL = baseURL
         self.session = session
     }
 
     func getPosts() async throws -> [PostDto] {
-        guard let url = baseURL?.appendingPathComponent("posts") else {
-            throw APIError.invalidURL
-        }
+        let url = baseURL.appendingPathComponent("posts")
 
         let (data, response) = try await session.data(from: url)
 

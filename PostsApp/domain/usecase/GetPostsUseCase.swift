@@ -5,7 +5,11 @@
 //  Created by Hassan Jamil on 02/10/2025.
 //
 
-final class GetPostsUseCase {
+protocol GetPostsUseCaseProtocol {
+    func execute() async throws -> [PostDto]
+}
+
+final class GetPostsUseCase: GetPostsUseCaseProtocol {
     private let postRepository: PostRepositoryProtocol
 
     init(postRepository: PostRepositoryProtocol) {
