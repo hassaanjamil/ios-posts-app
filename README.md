@@ -1,6 +1,6 @@
 # PostsApp (iOS)
 
-A SwiftUI (100% Swift) sample project that mirrors the [Android Posts App](https://github.com/hassaanjamil/android-posts-app) and consume [npm-rest-api](https://github.com/hassaanjamil/npm-sample-posts-rest-api). It demonstrates how to consume a posts API and render a home feed while following Clean Architecture guidelines for iOS.
+A SwiftUI (100% Swift) sample project that mirrors the [Android Posts App](https://github.com/hassaanjamil/android-posts-app). It demonstrates how to consume a posts API and render a home feed while following Clean Architecture guidelines for iOS.
 
   > For this app, please have a look at my open source [Posts Rest API respository](https://github.com/hassaanjamil/node-posts-rest-api):
 Configure it, by following the instructions and run the local server to make this android app works for you, and check if you are running your server using the same port number (3000) or not.
