@@ -3,7 +3,7 @@
 A SwiftUI (100% Swift) sample project that mirrors the [Android Posts App](https://github.com/hassaanjamil/android-posts-app). It demonstrates how to consume a posts API and render a home feed while following Clean Architecture guidelines for iOS.
 
   > For this app, please have a look at my open source [Posts Rest API respository](https://github.com/hassaanjamil/node-posts-rest-api):
-Configure it, by following the instructions and run the local server to make this android app works for you, and check if you are running your server using the same port number (3000) or not.
+Configure it, by following the instructions and run the local server to make this app works for you, and check if you are running your server using the same port number (3000) or not.
 
 ## 📱 Features
 - Authenticate mock user and land on a tab-based shell.
