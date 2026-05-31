@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct ContentView: View {
     @AppStorage("isAuthenticated") var isAuthenticated: Bool = false
 

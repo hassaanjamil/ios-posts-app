@@ -11,14 +11,12 @@ import SwiftUI
 struct HomeView: View {
 
     @StateObject private var viewModel: HomeViewModel
+    private let appContainer: AppContainer
 
-    init(viewModel: HomeViewModel? = nil,
+    init(viewModel: HomeViewModel,
          container: AppContainer) {
-        if let viewModel {
-            _viewModel = StateObject(wrappedValue: viewModel)
-        } else {
-            _viewModel = StateObject(wrappedValue: container.resolve(HomeViewModel.self))
-        }
+        _viewModel = StateObject(wrappedValue: viewModel)
+        self.appContainer = container
     }
 
     var body: some View {
@@ -26,7 +24,17 @@ struct HomeView: View {
             PostList(posts: viewModel.posts,
                      isLoading: viewModel.isLoading,
                      errorMessage: viewModel.errorMessage,
-                     onRefresh: { await viewModel.loadPosts() })
+                     onRefresh: { await viewModel.loadPosts() },
+                     onFavoriteTap: { postId in
+                         viewModel.toggleFavorite(postId: postId)
+                     },
+                     postDetailViewBuilder: { post in
+                         AnyView(PostDetailView(post: post,
+                                                onFavoriteTap: {
+                                                    viewModel.toggleFavorite(postId: post.id)
+                                                },
+                                                viewModel: appContainer.resolve(PostDetailViewModel.self)))
+                     })
                 .navigationTitle("Posts")
         }
         .task {

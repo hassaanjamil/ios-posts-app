@@ -15,12 +15,22 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var errorMessage: String?
 
     private let getPostsUseCase: GetPostsUseCaseProtocol
+    private let getFavoritePostIdsUseCase: GetFavoritePostIdsUseCaseProtocol
+    private let toggleFavoritePostUseCase: ToggleFavoritePostUseCaseProtocol
     private let postMapper: PostMapperProtocol
 
     init(getPostsUseCase: GetPostsUseCaseProtocol,
+         getFavoritePostIdsUseCase: GetFavoritePostIdsUseCaseProtocol,
+         toggleFavoritePostUseCase: ToggleFavoritePostUseCaseProtocol,
          postMapper: PostMapperProtocol) {
         self.getPostsUseCase = getPostsUseCase
+        self.getFavoritePostIdsUseCase = getFavoritePostIdsUseCase
+        self.toggleFavoritePostUseCase = toggleFavoritePostUseCase
         self.postMapper = postMapper
+    }
+
+    var favoritePosts: [Post] {
+        posts.filter(\.isFavorite)
     }
 
     func loadPosts() async {
@@ -30,12 +40,27 @@ final class HomeViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            let posts = try await getPostsUseCase.execute()
-            self.posts = postMapper.toPost(posts: posts)
+            let postDtos = try await getPostsUseCase.execute()
+            let favoriteIds = getFavoritePostIdsUseCase.execute()
+            self.posts = postMapper.toPost(posts: postDtos).map { post in
+                var mutablePost = post
+                mutablePost.isFavorite = favoriteIds.contains(post.id)
+                return mutablePost
+            }
         } catch {
             errorMessage = error.localizedDescription
         }
 
         isLoading = false
+    }
+
+    func toggleFavorite(postId: Int) {
+        guard let index = posts.firstIndex(where: { $0.id == postId }) else {
+            return
+        }
+
+        let nextFavorite = !posts[index].isFavorite
+        posts[index].isFavorite = nextFavorite
+        toggleFavoritePostUseCase.execute(postId: postId, isFavorite: nextFavorite)
     }
 }
