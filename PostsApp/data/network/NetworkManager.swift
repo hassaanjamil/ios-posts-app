@@ -13,6 +13,19 @@ enum APIError: Error {
     case decodingFailed
 }
 
+extension APIError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL:
+            return "Invalid API URL configuration."
+        case .invalidResponse:
+            return "Server returned an invalid response. Please try again."
+        case .decodingFailed:
+            return "Failed to decode server data. Check backend response format."
+        }
+    }
+}
+
 final class NetworkManager: NetworkManagerProtocol {
 
     private let baseURL: URL
@@ -26,7 +39,25 @@ final class NetworkManager: NetworkManagerProtocol {
 
     func getPosts() async throws -> [PostDto] {
         let url = baseURL.appendingPathComponent("posts")
+        return try await request(url: url, responseType: [PostDto].self)
+    }
 
+    func getUserById(_ userId: Int) async throws -> UserDto {
+        let url = baseURL
+            .appendingPathComponent("users")
+            .appendingPathComponent(String(userId))
+        return try await request(url: url, responseType: UserDto.self)
+    }
+
+    func getComments(postId: Int) async throws -> [CommentDto] {
+        let url = baseURL
+            .appendingPathComponent("comments")
+            .appendingPathComponent(String(postId))
+        return try await request(url: url, responseType: [CommentDto].self)
+    }
+
+    private func request<T: Decodable>(url: URL,
+                                       responseType: T.Type) async throws -> T {
         let (data, response) = try await session.data(from: url)
 
         guard let httpResponse = response as? HTTPURLResponse,
@@ -35,7 +66,7 @@ final class NetworkManager: NetworkManagerProtocol {
         }
 
         do {
-            return try JSONDecoder().decode([PostDto].self, from: data)
+            return try JSONDecoder().decode(responseType, from: data)
         } catch {
             throw APIError.decodingFailed
         }

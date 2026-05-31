@@ -5,10 +5,10 @@
 //  Created by Hassan Jamil on 02/10/2025.
 //
 
-struct Post: Codable, Identifiable {
+struct Comment: Codable, Identifiable {
     let id: Int
-    let title: String
     let body: String
+    let postId: Int
     let userId: Int
-    var isFavorite: Bool? = false
+//    var isActive: Bool? = false
 }

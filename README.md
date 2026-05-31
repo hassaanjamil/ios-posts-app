@@ -1,90 +1,101 @@
-# PostsApp (iOS)
+# Sample iOS Posts App
 
-A SwiftUI (100% Swift) sample project that mirrors the [Android Posts App](https://github.com/hassaanjamil/android-posts-app). It demonstrates how to consume a posts API and render a home feed while following Clean Architecture guidelines for iOS.
+An open-source iOS SwiftUI sample that demonstrates a modern posts feed backed by a REST API using layered Clean Architecture. The project showcases the native iOS APIs for UI, networking, local persistence, and dependency injection.
 
-  > For this app, please have a look at my open source [Posts Rest API respository](https://github.com/hassaanjamil/node-posts-rest-api):
-Configure it, by following the instructions and run the local server to make this app works for you, and check if you are running your server using the same port number (3000) or not.
+> For this app, please have a look at my open source [Posts Rest API repository](https://github.com/hassaanjamil/node-posts-rest-api).
+Configure it by following the instructions and run the local server so this app works correctly (default port: `3000`).
 
-## 📱 Features
-- Authenticate mock user and land on a tab-based shell.
-- Fetch posts asynchronously from `http://127.0.0.1:3000/posts`, my [posts-rest-api](https://github.com/hassaanjamil/node-posts-rest-api) repository (local server) .
-- Display Posts items within a lazily rendered list.
-- Navigate to a post detail screen for each post.
-- Pull-to-refresh support and basic error handling UI.
+## Table of Contents
+- [Highlights](#highlights)
+- [Architecture Overview](#architecture-overview)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Local API Notes](#local-api-notes)
+- [Roadmap Ideas](#roadmap-ideas)
+- [Contributing](#contributing)
 
-## 🏗 Architecture
-The project mirrors the layered setup following clean architecture guidelines:
+## Highlights
+- 100% Swift with SwiftUI navigation and a tab-based shell (`Home`, `Favorites`, `Settings`).
+- Clean layers (`data`, `domain`, `presentation`) with protocol-driven boundaries.
+- Dependency injection with Swinject through a single `AppContainer` root.
+- Async networking with `URLSession` and Swift concurrency (`async`/`await`).
+- Post detail resolves author and comments using dedicated use cases.
+- Favorites persist locally using `UserDefaults` and sync across tabs.
+- Pull-to-refresh and reusable error/empty state components.
 
-- **presentation** – SwiftUI screens (`HomeView`, `AuthView`, etc.), view models (`HomeViewModel`), and reusable components.
-- **domain** – Business rules expressed as pure Swift entities (`PostDto`), repository contracts, and use cases (`GetPostsUseCase`).
-- **data** – Remote implementations using `NetworkManager`, repository adapters (`PostRepository`), protocol definitions, and lightweight data mappers (`PostMapper`).
-
-Dependencies are wired at the edges through Swinject so presentation never constructs concrete data layer types directly. Each layer remains testable in isolation by relying on protocols.
-
-## 🧩 Tech Stack
-- **SwiftUI** for the UI layer and navigation.
-- **Combine-lite** state model using `ObservableObject` / `@StateObject`.
-- **Swift concurrency** (`async`/`await`) for networking and repository calls.
-- **Swinject** for dependency injection across layers.
-- **SPM-first** dependency management.
-
-## 🧬 Dependency Injection
-`AppContainer` bootstraps a `Swinject.Container`, registers protocols for the network, repository, use case, mapper, and view model layers, then exposes the container to SwiftUI through a custom environment key. Screens resolve the dependencies they need rather than instantiating concrete types, keeping the architecture clean and test-friendly. Swap the registrations or inject mock implementations in tests to exercise flows without touching production services.
-
-## 🗂 Module & Folder Layout
+## Architecture Overview
 ```
-PostsApp
-├── data
-│   ├── di
-│   │   └── AppContainer.swift
-│   ├── network
-│   │   ├── NetworkManager.swift
-│   │   └── NetworkManagerProtocol.swift
-│   ├── repository
-│   │   └── PostRepository.swift
-│   ├── mapper
-│   │   └── PostMapper.swift
-│   └── protocol
-│       └── PostMapperProtocol.swift
-├── domain
-│   ├── entities
-│   │   └── PostDto.swift
-│   ├── repository
-│   │   └── PostRepositoryProtocol.swift
-│   └── usecase
-│       └── GetPostsUseCase.swift
-└── presentation
-    ├── component
-    │   ├── CardView.swift
-    │   └── ErrorView.swift
-    ├── navigation
-    │   └── BottomBarContentView.swift
-    ├── screen
-    │   ├── AuthView.swift
-    │   ├── HomeView.swift
-    │   ├── PostDetailView.swift
-    │   ├── FavoriteView.swift
-    │   ├── ProfileView.swift
-    │   └── SettingsView.swift
-    ├── support
-    │   └── AppContainer+Environment.swift
-    └── viewModel
-        └── HomeViewModel.swift
+PostsApp (SwiftUI App)
+        |
+        +- data/di AppContainer (Swinject registrations)
+        |   +- NetworkManager (URLSession)
+        |   +- Repositories (Post, User, Comment, Favorite)
+        |   +- Local store (FavoriteStore)
+        |
+        +- domain (entities + repository contracts + use cases)
+        |
+        +- presentation (screens + components + view models)
+            +- HomeViewModel
+            +- PostDetailViewModel
+            +- SwiftUI screens (Home/Favorites/PostDetail/Profile/Settings)
 ```
 
-## 🚀 Getting Started
+- State Management: `ObservableObject` view models publish screen state (`posts`, loading/error flags, author/comments details).
+- Navigation: `NavigationStack` inside each tab and detail navigation from post cards.
+- Feature parity with Android: posts list, favorite toggles, persisted favorites, post detail author fetch, and comments rendering.
+
+## Tech Stack
+- Swift 5.9+
+- SwiftUI
+- URLSession
+- Swift Concurrency
+- Swinject
+- UserDefaults (favorite persistence)
+- Xcode 16+ tooling
+
+## Project Structure
+```
+PostsApp/
+ |- data/
+ |  |- di/                 # AppContainer registrations
+ |  |- dto/                # API DTOs (PostDto, UserDto, CommentDto)
+ |  |- local/              # Local storage adapters (FavoriteStore)
+ |  |- mapper/             # DTO <-> domain mappers
+ |  |- network/            # NetworkManager + protocol
+ |  |- protocol/           # Mapper/network protocols
+ |  |- repository/         # Repository implementations
+ |
+ |- domain/
+ |  |- entity/             # Post, User, Comment
+ |  |- repository/         # Repository contracts
+ |  |- usecase/            # GetPosts, GetUserById, GetComments, favorites use cases
+ |
+ |- presentation/
+ |  |- component/          # Reusable UI components
+ |  |- navigation/         # Bottom tab shell
+ |  |- screen/             # Auth/Home/Favorites/PostDetail/Profile/Settings
+ |  |- support/            # Environment helpers
+ |  |- viewModel/          # HomeViewModel, PostDetailViewModel
+```
+
+## Getting Started
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/hassaanjamil/SampleIOSPostsApp.git
+   cd SampleIOSPostsApp
+   ```
+2. Start the local API (`http://127.0.0.1:3000`) using your preferred backend or JSON server.
+3. Open `PostsApp.xcodeproj` in Xcode.
+4. Select the `PostsApp` scheme and run on an iOS simulator.
+
 ### Requirements
-- Xcode 16.x (see CI configuration)
-- iOS 17+ simulator or device
+- macOS with Xcode 16+
+- iOS 17+ simulator or physical device
 - Swift 5.9+
 
-### Run the App
-1. Clone the repository.
-2. Open `PostsApp.xcodeproj` (no workspace required).
-3. Select the `PostsApp` scheme and hit **Run** (⌘R).
-
 ### Command Line Build & Test
-```
+```bash
 xcodebuild \
   -project PostsApp.xcodeproj \
   -scheme PostsApp \
@@ -93,20 +104,27 @@ xcodebuild \
   clean test
 ```
 
-## 🔄 Continuous Integration
-The `.github/workflows/ci.yml` pipeline runs on `macos-14`, selects Xcode 16, and executes `xcodebuild clean test` on the iOS simulator to keep parity with local builds.
+## Local API Notes
+- Endpoints used by this app:
+  - `GET /posts`
+  - `GET /users/:id`
+  - `GET /comments/:postId`
+- Need instant mock data? You can run JSON Server:
+  ```bash
+  npx json-server --watch db.json --port 3000
+  ```
 
-## 🧪 Testing & Improvements
-- Unit/UI tests are not yet implemented. Add them per layer (e.g., mock `PostRepositoryProtocol` for domain tests).
-- Expand `PostDetailView` to show complete post information.
-- Swap the mock authentication toggle with a real auth flow if needed.
+## Roadmap Ideas
+- Add full unit tests for each layer and integration tests for view model flows.
+- Replace mock auth gate with a real sign-in flow.
+- Add offline-first caching for posts/comments.
+- Add advanced filtering/sorting for posts and favorites.
 
-## 🤝 Contributing
-1. ⭐️ Star the repo to support continued development.
+## Contributing
+Pull requests, issues, and ideas for improvements are welcome.
+
+1. Star the repo.
 2. Create a feature branch.
-3. Add or update tests where applicable.
-4. Run the CI command locally.
-5. Submit a pull request.
-
-## 📄 License
-MIT License. See `LICENSE` if included, otherwise adapt as needed.
+3. Add or update tests.
+4. Run local checks.
+5. Open a pull request.

@@ -7,32 +7,47 @@
 
 import SwiftUI
 
+@MainActor
 struct BottomBarContentView: View {
     @Environment(\.appContainer) private var appContainer
+    @StateObject private var homeViewModel: HomeViewModel
+
+    init() {
+        _homeViewModel = StateObject(wrappedValue: AppContainer.shared.resolve(HomeViewModel.self))
+    }
 
     var body: some View {
-        NavigationStack {
-            TabView {
-                HomeView(container: appContainer)
-                    .tabItem {
-                        Label("Home", systemImage: "house.fill")
-                    }
-                FavoriteView()
-                    .tabItem {
-                        Label("Profile", systemImage: "heart.fill")
-                    }
+        TabView {
+            HomeView(viewModel: homeViewModel,
+                     container: appContainer)
+                .tabItem {
+                    Label("Home", systemImage: "house.fill")
+                }
+
+            FavoriteView(viewModel: homeViewModel,
+                         container: appContainer)
+                .tabItem {
+                    Label("Favorites", systemImage: "heart.fill")
+                }
+
+            NavigationStack {
                 SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gearshape.fill")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            NavigationLink(destination: ProfileView()) {
+                                Image(systemName: "person.fill")
+                                    .font(.title2)
+                            }
+                        }
                     }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: ProfileView()) {
-                        Image(systemName: "person.fill")
-                            .font(.title2)
-                    }
-                }
+            .tabItem {
+                Label("Settings", systemImage: "gearshape.fill")
+            }
+        }
+        .task {
+            if homeViewModel.posts.isEmpty {
+                await homeViewModel.loadPosts()
             }
         }
     }

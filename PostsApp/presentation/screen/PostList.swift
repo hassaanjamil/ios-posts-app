@@ -12,6 +12,10 @@ struct PostList: View {
     let isLoading: Bool
     let errorMessage: String?
     let onRefresh: () async -> Void
+    let onFavoriteTap: (Int) -> Void
+    let postDetailViewBuilder: (Post) -> AnyView
+
+    @State private var selectedPost: Post?
 
     var body: some View {
         content
@@ -43,42 +47,43 @@ struct PostList: View {
 
     private var listContent: some View {
         List(posts) { post in
-            
-              CardView(cornerRadius: 10) {
-                NavigationLink(destination: PostDetailView(item: post.id)) {
-                  VStack(alignment: .leading, spacing: 8) {
-                      Text(post.title)
-                          .font(.headline)
-                          .foregroundColor(.primary)
+            CardView(cornerRadius: 10) {
+                HStack(alignment: .top, spacing: 12) {
+                    Button {
+                        selectedPost = post
+                    } label: {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(post.title)
+                                .font(.headline)
+                                .foregroundColor(.primary)
 
-                      Text(post.body)
-                          .font(.subheadline)
-                          .foregroundColor(.secondary)
-                          .lineLimit(2)
+                            Text(post.body)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .lineLimit(2)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .buttonStyle(CardNavigationLinkStyle())
 
-                      Spacer(minLength: 3)
-
-                      HStack {
-                          Spacer(minLength: 1)
-                          Button(action: {
-                              print("Favorite tapped for post \(post.id)")
-                          }) {
-                              Image(systemName: "heart")
-                                  .font(.title3)
-                                  .foregroundColor(.gray)
-                          }
-                      }
-                  }
-                  .padding(.vertical, 4)
+                    Button(action: {
+                        onFavoriteTap(post.id)
+                    }) {
+                        Image(systemName: post.isFavorite ? "heart.fill" : "heart")
+                            .font(.title3)
+                            .foregroundColor(post.isFavorite ? .red : .gray)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(CardNavigationLinkStyle())
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
-              }
-            
+            }
         }
         .listStyle(.plain)
         .refreshable { await onRefresh() }
+        .navigationDestination(item: $selectedPost) { post in
+            postDetailViewBuilder(post)
+        }
     }
 }
 
